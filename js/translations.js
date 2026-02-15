@@ -7,8 +7,8 @@ const translations = {
         nav_contact: "Kontakt",
         
         // SLIDER
-        hero_title_1: "NAJWYŻSZA JAKOŚĆ I PRECYZJA WYKONANIA",
-        hero_title_2: "NOWOCZESNE TECHNOLOGIE WYKOŃCZEŃ",
+        hero_title_1: "PRECYZJA I NIEMIECKA JAKOŚĆ",
+        hero_title_2: "MALOWANIE NA NAJWYŻSZYM POZIOMIE",
         hero_title_3: "KOMPLEKSOWE REMONTY I MODERNIZACJE",
 
         about_title: "O Nas",
@@ -59,8 +59,8 @@ const translations = {
         nav_contact: "Kontakt",
         
         // SLIDER
-        hero_title_1: "HÖCHSTE QUALITÄT UND PRÄZISION",
-        hero_title_2: "MODERNE AUSBAUTECHNOLOGIEN",
+        hero_title_1: "PRÄZISION UND DEUTSCHE QUALITÄT",
+        hero_title_2: "MALEREI AUF HÖCHSTEM NIVEAU",
         hero_title_3: "KOMPLETTE RENOVIERUNGEN & MODERNISIERUNGEN",
 
         about_title: "Über Uns",

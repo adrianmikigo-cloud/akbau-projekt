@@ -32,39 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setLanguage('pl'); // Start PL
 
-    // --- 2. SLIDER ---
-    const slides = document.querySelectorAll('.slide');
-    const nextBtn = document.querySelector('.slider-arrow.next');
-    const prevBtn = document.querySelector('.slider-arrow.prev');
-    let currentSlide = 0;
-    let slideInterval;
-
-    function showSlide(index) {
-        if (!slides.length) return;
-        slides.forEach(s => s.classList.remove('active'));
-        
-        currentSlide = index;
-        if (currentSlide >= slides.length) currentSlide = 0;
-        if (currentSlide < 0) currentSlide = slides.length - 1;
-        
-        slides[currentSlide].classList.add('active');
-    }
-
-    function nextSlide() { showSlide(currentSlide + 1); }
-    function prevSlide() { showSlide(currentSlide - 1); }
-
-    if (slides.length > 0) {
-        // Kliknięcia
-        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
-        
-        // Automat
-        showSlide(0);
-        startInterval();
-    }
-
-    function startInterval() { slideInterval = setInterval(nextSlide, 5000); }
-    function resetInterval() { clearInterval(slideInterval); startInterval(); }
+// --- 1. GŁÓWNY SLIDER (SWIPER) ---
+    const swiper = new Swiper(".myHeroSwiper", {
+        loop: true,
+        effect: "fade", // Ładne przenikanie zamiast przesuwania
+        fadeEffect: { crossFade: true },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
 
     // --- 3. LICZNIKI (STATS) ---
     const statsSection = document.querySelector('#stats');
