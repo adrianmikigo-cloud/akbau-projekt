@@ -1,0 +1,1237 @@
+html
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05060d">
+<title>HypeZone – najlepsze wideo z sieci: sport, muzyka, MMA, freak fight</title>
+
+<style>
+  :root{
+    --bg:#05060d;
+    --card:#0f1424;
+    --card2:#171d33;
+    --text:#eef1ff;
+    --muted:#98a0c0;
+    --accent:#4f7cff;
+    --accent2:#9b5cff;
+    --pink:#ff4f8b;
+    --green:#27d98a;
+    --radius:22px;
+    --hh:70px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  button,input,select,textarea{font-family:inherit}
+  .hidden{display:none!important}
+
+  /* ============ TŁO CAŁEJ STRONY ============ */
+  .bg{position:fixed;inset:0;z-index:-1;overflow:hidden;background:
+      radial-gradient(1200px 700px at 10% -10%,rgba(79,124,255,.18),transparent 60%),
+      radial-gradient(1000px 700px at 100% 30%,rgba(155,92,255,.16),transparent 60%),
+      radial-gradient(900px 600px at 30% 110%,rgba(255,79,139,.12),transparent 60%),
+      var(--bg)}
+  .bg .orb{position:absolute;border-radius:50%;filter:blur(110px);opacity:.35;animation:drift 18s ease-in-out infinite alternate}
+  .bg .o1{width:480px;height:480px;background:#4f7cff;top:10%;left:-8%}
+  .bg .o2{width:420px;height:420px;background:#9b5cff;top:50%;right:-6%;animation-delay:-6s}
+  .bg .o3{width:340px;height:340px;background:#ff4f8b;bottom:-8%;left:35%;opacity:.2;animation-delay:-11s}
+  .bg .grid{position:absolute;inset:0;opacity:.07;
+    background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 80%)}
+  @keyframes drift{to{transform:translate(80px,50px) scale(1.2)}}
+
+  /* ============ TOP BAR / SOCIAL ============ */
+  .topbar{background:rgba(5,6,13,.7);border-bottom:1px solid rgba(255,255,255,.06);font-size:.85rem;color:var(--muted)}
+  .topbar-in{max-width:1300px;margin:auto;padding:8px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .topbar .warn{color:#ffd166}
+  .social{display:flex;gap:10px}
+  .social a{
+    width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+    color:#cfd6f5;transition:.25s;
+  }
+  .social a svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .social a:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(79,124,255,.4)}
+  .topbar .social a{width:30px;height:30px}
+  .topbar .social a svg{width:15px;height:15px}
+
+  /* ============ NAV ============ */
+  header{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px);background:rgba(5,6,13,.78);border-bottom:1px solid rgba(255,255,255,.07)}
+  .nav{max-width:1300px;margin:auto;padding:0 24px;height:var(--hh);display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .logo{font-size:1.65rem;font-weight:900;letter-spacing:-1px}
+  .logo span{background:linear-gradient(90deg,var(--accent),var(--accent2),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:18px;align-items:center}
+  .nav-links > a{color:var(--muted);font-weight:500;transition:.2s}
+  .nav-links > a:hover{color:#fff}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:14px 28px;border:none;border-radius:999px;cursor:pointer;
+    font-size:1rem;font-weight:600;color:#fff;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 10px 30px rgba(79,124,255,.35);
+    transition:transform .2s,box-shadow .2s;
+  }
+  .btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(155,92,255,.45)}
+  .btn:active{transform:scale(.97)}
+  .btn.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+  .btn.ghost:hover{background:rgba(255,255,255,.16)}
+  .btn.small{padding:10px 20px;font-size:.92rem}
+
+  .pill{
+    display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:999px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+    cursor:pointer;font-weight:600;color:#fff;transition:.2s;font-size:.95rem;
+  }
+  .pill:hover{background:rgba(255,255,255,.16)}
+
+  .av{
+    width:30px;height:30px;border-radius:50%;flex:none;
+    display:inline-grid;place-items:center;font-size:.8rem;font-weight:800;color:#fff;
+  }
+  .user-wrap{position:relative}
+  .dropdown{
+    position:absolute;right:0;top:120%;min-width:220px;background:#0d1120;
+    border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:10px;display:none;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+  }
+  .dropdown.open{display:block}
+  .dropdown .who{padding:10px 12px;color:var(--muted);font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:6px;word-break:break-all}
+  .dropdown button{width:100%;text-align:left;background:none;border:none;color:#fff;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:.95rem}
+  .dropdown button:hover{background:rgba(255,255,255,.08)}
+
+  /* ============ PANORAMA ============ */
+  .banner{
+    position:relative;width:100%;min-height:620px;display:flex;align-items:center;overflow:hidden;
+    background:
+      linear-gradient(90deg,rgba(5,6,13,.97) 0%,rgba(5,6,13,.75) 45%,rgba(5,6,13,.3) 100%),
+      url("https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=2400&q=80") center/cover no-repeat,
+      linear-gradient(135deg,#0a1140 0%,#2a1566 55%,#5b1f8f 100%);
+  }
+  .banner::after{content:"";position:absolute;left:0;right:0;bottom:0;height:180px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none}
+  .banner .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:drift 12s ease-in-out infinite alternate}
+  .banner .b1{width:420px;height:420px;background:#4f7cff;top:-120px;left:6%}
+  .banner .b2{width:380px;height:380px;background:#9b5cff;bottom:-100px;right:10%;animation-delay:-5s}
+  .banner .b3{width:260px;height:260px;background:#ff4f8b;top:30%;right:40%;opacity:.22;animation-delay:-8s}
+  .banner .lines{position:absolute;inset:0;opacity:.16;
+    background-image:linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(to bottom,#000,transparent 85%);-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+  .beam{position:absolute;top:-20%;width:180px;height:140%;transform:rotate(18deg);
+    background:linear-gradient(to bottom,rgba(255,255,255,.12),transparent 70%);filter:blur(30px);animation:sweep 9s ease-in-out infinite alternate}
+  .beam.l1{left:48%}.beam.l2{left:62%;animation-delay:-4s;opacity:.7}
+  @keyframes sweep{from{transform:rotate(18deg) translateX(-60px)}to{transform:rotate(18deg) translateX(60px)}}
+
+  .banner-in{position:relative;z-index:2;max-width:1300px;width:100%;margin:auto;padding:70px 24px 120px;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+  .badge{display:inline-block;padding:8px 16px;border-radius:999px;background:rgba(79,124,255,.18);color:#9db5ff;font-size:.85rem;font-weight:600;margin-bottom:22px;border:1px solid rgba(79,124,255,.35)}
+  .banner h1{font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.02;letter-spacing:-2.5px;margin-bottom:22px}
+  .banner h1 span{background:linear-gradient(90deg,#6c93ff,#c08bff,#ff7ab0);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .banner p.lead{color:#b9c0e0;font-size:1.15rem;max-width:540px;margin-bottom:32px}
+  .hero-buttons{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:38px}
+  .stats{display:flex;gap:36px;flex-wrap:wrap}
+  .stats b{display:block;font-size:1.7rem;letter-spacing:-1px}
+  .stats small{color:var(--muted)}
+
+  .collage{position:relative;height:440px}
+  .mock{
+    position:absolute;width:250px;border-radius:22px;overflow:hidden;
+    background:rgba(15,20,36,.85);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.16);box-shadow:0 30px 70px rgba(0,0,0,.55);
+    animation:floaty 7s ease-in-out infinite;
+  }
+  .mock .mt{height:150px;display:grid;place-items:center;font-size:3.4rem;position:relative}
+  .mock .mb{padding:14px 16px}
+  .mock .mb b{display:block;font-size:.95rem;line-height:1.3}
+  .mock .mb small{color:var(--muted)}
+  .m1{left:0;top:10px;transform:rotate(-7deg)}
+  .m2{right:0;top:0;transform:rotate(6deg);animation-delay:-2s}
+  .m3{left:90px;bottom:0;transform:rotate(-2deg);animation-delay:-4s}
+  @keyframes floaty{50%{translate:0 -16px}}
+
+  /* ============ BADGES ============ */
+  .plat{
+    position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:6px;
+    background:rgba(5,6,13,.72);backdrop-filter:blur(8px);
+    padding:5px 11px;border-radius:999px;font-size:.75rem;font-weight:700;
+  }
+  .plat i{width:8px;height:8px;border-radius:50%;background:var(--pc,#fff);box-shadow:0 0 8px var(--pc,#fff)}
+  .cat-tag{
+    position:absolute;left:12px;bottom:12px;
+    background:linear-gradient(135deg,rgba(79,124,255,.9),rgba(155,92,255,.9));
+    padding:4px 12px;border-radius:999px;font-size:.75rem;font-weight:700;
+  }
+
+  /* ============ KATEGORIE ============ */
+  .catbar{position:sticky;top:var(--hh);z-index:40;background:rgba(5,6,13,.82);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .catbar-in{max-width:1300px;margin:auto;padding:14px 24px;display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
+  .catbar-in::-webkit-scrollbar{display:none}
+  .chip{
+    flex:none;display:flex;align-items:center;gap:8px;
+    padding:10px 18px;border-radius:999px;cursor:pointer;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    color:#cfd6f5;font-weight:600;font-size:.93rem;transition:.2s;white-space:nowrap;
+  }
+  .chip small{background:rgba(255,255,255,.12);border-radius:999px;padding:0 8px;font-size:.75rem}
+  .chip:hover{background:rgba(255,255,255,.13);transform:translateY(-2px)}
+  .chip.active{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:transparent;color:#fff;box-shadow:0 8px 24px rgba(79,124,255,.4)}
+
+  /* ============ SEKCJE ============ */
+  .wrap{max-width:1300px;margin:auto;padding:0 24px}
+  section{padding:60px 0 20px}
+  .section-title{font-size:2.1rem;letter-spacing:-1px;margin-bottom:6px}
+  .section-sub{color:var(--muted);margin-bottom:28px}
+
+  /* trending */
+  .trend{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
+  .t-card{
+    position:relative;display:flex;gap:16px;align-items:center;cursor:pointer;
+    background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:14px;
+    transition:.25s;overflow:hidden;
+  }
+  .t-card:hover{transform:translateY(-5px);border-color:rgba(155,92,255,.5);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  .t-rank{font-size:3rem;font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;width:46px;text-align:center;flex:none}
+  .t-thumb{position:relative;width:150px;aspect-ratio:16/10;border-radius:14px;overflow:hidden;flex:none;background:var(--card2)}
+  .t-thumb img{width:100%;height:100%;object-fit:cover}
+  .t-info{min-width:0}
+  .t-info b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+  .t-info small{color:var(--muted)}
+
+  /* toolbar */
+  .toolbar{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .toolbar input,.toolbar select{
+    padding:13px 18px;background:rgba(255,255,255,.06);color:#fff;
+    border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:.95rem;outline:none;transition:.2s;
+  }
+  .toolbar input{flex:1;min-width:220px}
+  .toolbar input:focus,.toolbar select:focus{border-color:var(--accent)}
+  .toolbar select option{background:#0d1120}
+  .feed-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;color:var(--muted);gap:10px;flex-wrap:wrap}
+  .mine-note{display:flex;align-items:center;gap:10px;background:rgba(79,124,255,.15);border:1px solid rgba(79,124,255,.4);padding:6px 8px 6px 16px;border-radius:999px;color:#b8c8ff;font-size:.9rem}
+  .mine-note button{background:rgba(255,255,255,.12);border:none;color:#fff;border-radius:50%;width:26px;height:26px;cursor:pointer}
+
+  /* karty wpisów */
+  .feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:24px}
+  .card{
+    background:var(--card);border-radius:var(--radius);overflow:hidden;cursor:pointer;
+    border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;
+    transition:transform .3s,box-shadow .3s,border-color .3s;outline:none;
+    animation:pop .5s both;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(20px)}}
+  .card:hover,.card:focus-visible{transform:translateY(-8px);border-color:rgba(155,92,255,.5);box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 40px rgba(79,124,255,.15)}
+  .thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--card2)}
+  .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .card:hover .thumb img{transform:scale(1.08)}
+  .play{
+    position:absolute;inset:0;margin:auto;width:62px;height:62px;border-radius:50%;
+    display:grid;place-items:center;font-size:1.3rem;padding-left:4px;
+    background:rgba(255,255,255,.18);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.35);
+    opacity:0;transform:scale(.7);transition:.3s;
+  }
+  .card:hover .play{opacity:1;transform:scale(1)}
+  .card-body{padding:18px 20px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card-body h3{font-size:1.08rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .by{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.85rem}
+  .by .av{width:26px;height:26px;font-size:.72rem}
+  .by b{color:#dfe4ff;font-weight:600}
+  .meta{display:flex;gap:16px;margin-top:auto;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);color:var(--muted);font-size:.88rem;align-items:center}
+  .like{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.88rem;display:flex;gap:6px;align-items:center;transition:.2s;padding:0}
+  .like:hover{color:#ff6b9a;transform:scale(1.1)}
+  .like.on{color:#ff4f8b}
+
+  .more{text-align:center;margin-top:34px}
+  .empty{text-align:center;color:var(--muted);padding:70px 20px;border:1px dashed rgba(255,255,255,.15);border-radius:24px}
+  .empty .big{font-size:3.4rem;margin-bottom:8px}
+  .empty.small{padding:24px;font-size:.92rem;border-radius:16px}
+
+  /* ============ FAB ============ */
+  .fab{
+    position:fixed;right:26px;bottom:26px;z-index:70;
+    padding:16px 26px;border-radius:999px;border:none;cursor:pointer;color:#fff;font-weight:700;font-size:1rem;
+    background:linear-gradient(135deg,var(--accent),var(--accent2),var(--pink));
+    box-shadow:0 14px 40px rgba(155,92,255,.55);transition:.25s;
+  }
+  .fab:hover{transform:translateY(-4px) scale(1.04)}
+
+  /* ============ MODALE ============ */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:.3s;z-index:90}
+  .overlay.open{opacity:1;pointer-events:auto}
+  .modal{
+    position:fixed;left:50%;top:50%;width:min(480px,94%);max-height:92vh;overflow:auto;
+    background:#0b0f1e;border:1px solid rgba(255,255,255,.1);border-radius:28px;padding:32px;
+    transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;transition:.3s;
+    box-shadow:0 40px 100px rgba(0,0,0,.75);
+  }
+  .modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  #postModal{z-index:100;width:min(1120px,96%);padding:0}
+  #addModal{z-index:105;width:min(560px,94%)}
+  #authModal{z-index:110}
+  .close{
+    position:absolute;top:14px;right:14px;z-index:5;
+    background:rgba(255,255,255,.1);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer;
+  }
+  .close:hover{background:rgba(255,255,255,.22)}
+  .modal h2{font-size:1.65rem;margin-bottom:4px}
+  .modal .sub{color:var(--muted);margin-bottom:22px}
+  .modal label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+  .modal input,.modal select,.modal textarea{
+    width:100%;padding:13px 16px;margin-bottom:14px;background:var(--card2);color:#fff;
+    border:1px solid rgba(255,255,255,.1);border-radius:12px;font:inherit;outline:none;transition:.2s;
+  }
+  .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--accent)}
+  .modal textarea{min-height:90px;resize:vertical}
+  .modal .btn.full{width:100%}
+  .err{color:#ff6b7a;font-size:.88rem;min-height:22px;margin-bottom:6px}
+  .hint{color:var(--muted);font-size:.8rem;margin:-8px 0 14px}
+  .tabs{display:flex;background:var(--card2);border-radius:999px;padding:5px;margin-bottom:24px}
+  .tabs button{flex:1;padding:11px;border:none;border-radius:999px;cursor:pointer;background:none;color:var(--muted);font-weight:600;font-size:.95rem;transition:.2s}
+  .tabs button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+
+  .preview{display:flex;gap:14px;align-items:center;background:var(--card2);border:1px solid rgba(255,255,255,.1);padding:12px;border-radius:16px;margin-bottom:16px}
+  .preview .thumb{width:140px;flex:none;border-radius:12px}
+  .preview .pv-info{min-width:0;display:flex;flex-direction:column;gap:2px}
+  .preview .pv-info b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+  .preview small{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .platlist{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 16px}
+  .platlist span{font-size:.75rem;background:rgba(255,255,255,.07);padding:4px 10px;border-radius:999px;color:var(--muted)}
+
+  /* okno wpisu */
+  .post-grid{display:grid;grid-template-columns:1.45fr 1fr;min-height:560px}
+  #postMain{padding:28px;min-width:0}
+  #postSide{padding:28px;border-left:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);display:flex;flex-direction:column;min-width:0;max-height:92vh}
+  .embed{position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;margin-bottom:20px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .embed.v{aspect-ratio:auto;height:min(660px,68vh);max-width:380px;margin:0 auto 20px}
+  .embed img{width:100%;height:100%;object-fit:cover}
+  .embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .bigplay{
+    position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-size:2rem;padding-left:6px;cursor:pointer;
+    box-shadow:0 0 0 12px rgba(255,255,255,.12),0 20px 50px rgba(79,124,255,.6);transition:.25s;
+  }
+  .bigplay:hover{transform:scale(1.1)}
+  .noembed::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(5,6,13,.94),rgba(5,6,13,.55))}
+  .ne{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;text-align:center;padding:24px;color:#dfe4ff}
+  .ne p{max-width:460px;font-size:.95rem;color:#c7ceea}
+  .ne code{background:rgba(255,255,255,.12);padding:2px 8px;border-radius:6px;font-size:.85rem}
+  .ne-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  #postMain h2{font-size:1.6rem;line-height:1.25;margin-bottom:12px;padding-right:30px}
+  .post-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;color:var(--muted);font-size:.9rem;margin-bottom:14px}
+  .post-meta .plat,.post-meta .cat-tag{position:static}
+  .post-desc{color:#c6cdea;margin-bottom:18px;white-space:pre-wrap;word-break:break-word}
+  .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .abtn{
+    display:inline-flex;gap:8px;align-items:center;padding:10px 18px;border-radius:999px;cursor:pointer;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:600;font-size:.92rem;transition:.2s;
+  }
+  .abtn:hover{background:rgba(255,255,255,.16)}
+  .abtn.on{background:rgba(255,79,139,.18);border-color:rgba(255,79,139,.6);color:#ff7aa8}
+  #postSide h3{margin-bottom:14px;padding-right:44px}
+  #cForm{margin-bottom:16px}
+  #cForm textarea{width:100%;min-height:76px;resize:vertical;padding:12px 14px;margin-bottom:10px;background:var(--card2);color:#fff;border:1px solid rgba(255,255,255,.1);border-radius:14px;font:inherit;outline:none}
+  #cForm textarea:focus{border-color:var(--accent)}
+  .login-hint{background:var(--card2);border-radius:16px;padding:18px;text-align:center;margin-bottom:16px}
+  .cm-list{overflow:auto;display:grid;gap:14px;align-content:start;flex:1;padding-right:4px}
+  .cm{display:flex;gap:12px}
+  .cm-b{background:var(--card2);padding:10px 14px;border-radius:16px;border-top-left-radius:4px;flex:1;min-width:0}
+  .cm-h{display:flex;gap:10px;align-items:center}
+  .cm-h small{color:var(--muted);font-size:.75rem}
+  .cm-b p{white-space:pre-wrap;word-break:break-word;color:#d4daf3;font-size:.94rem}
+  .cm-del{margin-left:auto;background:none;border:none;cursor:pointer;opacity:.5;font-size:.9rem}
+  .cm-del:hover{opacity:1}
+
+  /* toast */
+  .toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%,140px);background:var(--green);color:#04210f;font-weight:700;padding:14px 26px;border-radius:999px;z-index:300;transition:.4s;max-width:92%;text-align:center}
+  .toast.show{transform:translate(-50%,0)}
+
+  /* footer */
+  footer{border-top:1px solid rgba(255,255,255,.07);margin-top:80px;background:rgba(5,6,13,.85)}
+  .foot-in{max-width:1300px;margin:auto;padding:56px 24px 30px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}
+  .foot-in p{color:var(--muted);max-width:360px;margin:12px 0 20px}
+  .foot-in h4{margin-bottom:14px}
+  .foot-in ul{list-style:none;display:grid;gap:8px}
+  .foot-in ul a{color:var(--muted);transition:.2s;cursor:pointer}
+  .foot-in ul a:hover{color:#fff}
+  .copy{text-align:center;color:var(--muted);font-size:.85rem;padding:22px 24px;border-top:1px solid rgba(255,255,255,.06)}
+
+  @media(max-width:960px){
+    .banner{min-height:auto}
+    .banner-in{grid-template-columns:1fr;padding-top:50px}
+    .collage{display:none}
+    .post-grid{grid-template-columns:1fr}
+    #postSide{border-left:none;border-top:1px solid rgba(255,255,255,.08);max-height:none}
+    .nav-links .hide-m{display:none}
+    .topbar .msg{display:none}
+    .topbar-in{justify-content:center}
+    .foot-in{grid-template-columns:1fr}
+    .t-thumb{width:120px}
+    .fab{right:16px;bottom:16px;padding:14px 22px}
+  }
+</style>
+</head>
+
+<body>
+<div class="bg"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div></div>
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="msg" id="topMsg">🔥 Najlepsze wideo z YouTube, TikToka i Instagrama w jednym miejscu</span>
+    <div class="social" data-social></div>
+  </div>
+</div>
+
+<!-- ================= NAV ================= -->
+<header>
+  <div class="nav">
+    <a href="#" class="logo">Hype<span>Zone</span></a>
+    <nav class="nav-links">
+      <a href="#top" class="hide-m">Na topie</a>
+      <a href="#tablica" class="hide-m">Tablica</a>
+      <button class="btn small" id="navAdd">＋ Dodaj wpis</button>
+
+      <button class="pill" id="loginBtn">👤 Zaloguj</button>
+      <div class="user-wrap hidden" id="userWrap">
+        <button class="pill" id="userBtn"><span class="av" id="userAvatar">A</span><span id="userName">Konto</span></button>
+        <div class="dropdown" id="userMenu">
+          <div class="who" id="userEmail"></div>
+          <button id="myPosts">📁 Moje wpisy</button>
+          <button id="logoutBtn">🚪 Wyloguj się</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= PANORAMA ================= -->
+<div class="banner">
+  <div class="orb b1"></div><div class="orb b2"></div><div class="orb b3"></div>
+  <div class="lines"></div><div class="beam l1"></div><div class="beam l2"></div>
+
+  <div class="banner-in">
+    <div>
+      <span class="badge">🔥 Tablica tworzona przez społeczność</span>
+      <h1>Najgorętsze <span>wideo</span> z całej sieci</h1>
+      <p class="lead">Wrzucaj linki z YouTube, TikToka, Instagrama i innych. Sport, muzyka, MMA, freak fight. Oglądaj, oceniaj i komentuj.</p>
+      <div class="hero-buttons">
+        <button class="btn" id="heroAdd">＋ Dodaj swój wpis</button>
+        <a href="#tablica" class="btn ghost">Przeglądaj tablicę ↓</a>
+      </div>
+      <div class="stats">
+        <div><b id="stPosts">0</b><small>wpisów</small></div>
+        <div><b id="stComments">0</b><small>komentarzy</small></div>
+        <div><b id="stLikes">0</b><small>polubień</small></div>
+        <div><b id="stUsers">0</b><small>użytkowników</small></div>
+      </div>
+    </div>
+
+    <div class="collage" aria-hidden="true">
+      <div class="mock m1"><div class="mt" style="background:linear-gradient(135deg,#ff2d2d,#6d0f3d)">🥊</div><div class="mb"><b>Freak Fight: nokaut wieczoru</b><small>▶ YouTube</small></div></div>
+      <div class="mock m2"><div class="mt" style="background:linear-gradient(135deg,#25f4ee,#6a2cff)">🎵</div><div class="mb"><b>Viralowy hit tygodnia</b><small>▶ TikTok</small></div></div>
+      <div class="mock m3"><div class="mt" style="background:linear-gradient(135deg,#feda75,#d62976,#4f5bd5)">⚽</div><div class="mb"><b>Gol z połowy boiska</b><small>▶ Instagram</small></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= KATEGORIE ================= -->
+<div class="catbar"><div class="catbar-in" id="chips"></div></div>
+
+<!-- ================= NA TOPIE ================= -->
+<section id="top" class="wrap">
+  <h2 class="section-title">🔥 Na topie</h2>
+  <p class="section-sub">Wpisy z największą liczbą polubień, komentarzy i wyświetleń.</p>
+  <div class="trend" id="trending"></div>
+</section>
+
+<!-- ================= TABLICA ================= -->
+<section id="tablica" class="wrap">
+  <h2 class="section-title">📌 Tablica</h2>
+  <p class="section-sub">Najnowsze wpisy użytkowników.</p>
+
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="🔍 Szukaj po tytule, opisie lub autorze…">
+    <select id="platFilter"></select>
+    <select id="sort">
+      <option value="new">Najnowsze</option>
+      <option value="top">Najpopularniejsze</option>
+      <option value="hot">Najczęściej komentowane</option>
+      <option value="views">Najczęściej oglądane</option>
+    </select>
+  </div>
+  <div class="feed-head"><span id="count"></span><span id="mineNote"></span></div>
+  <div class="feed" id="feed"></div>
+  <div class="more"><button class="btn ghost hidden" id="moreBtn">Pokaż więcej</button></div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="foot-in">
+    <div>
+      <a href="#" class="logo">Hype<span>Zone</span></a>
+      <p>Portal z najciekawszymi filmami z internetu. Dodawaj linki, komentuj i odkrywaj to, co hype'uje.</p>
+      <div class="social" data-social></div>
+    </div>
+    <div>
+      <h4>Portal</h4>
+      <ul>
+        <li><a href="#top">Na topie</a></li>
+        <li><a href="#tablica">Tablica</a></li>
+        <li><a id="footAdd">Dodaj wpis</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Informacje</h4>
+      <ul>
+        <li><a>Regulamin</a></li>
+        <li><a>Polityka prywatności</a></li>
+        <li><a>Zgłoś treść</a></li>
+        <li><a>Kontakt</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copy">© <span id="year"></span> HypeZone – portal demonstracyjny. Wszystkie materiały i znaki towarowe należą do ich właścicieli. Portal tylko linkuje i osadza treści.</div>
+</footer>
+
+<button class="fab" id="fab">＋ Dodaj wpis</button>
+
+<!-- ================= MODALE ================= -->
+<div class="overlay" id="overlay"></div>
+
+<!-- okno wpisu -->
+<div class="modal" id="postModal" role="dialog" aria-modal="true">
+  <button class="close" data-close="postModal" aria-label="Zamknij">✕</button>
+  <div class="post-grid">
+    <div id="postMain"></div>
+    <div id="postSide"></div>
+  </div>
+</div>
+
+<!-- dodawanie wpisu -->
+<div class="modal" id="addModal" role="dialog" aria-modal="true">
+  <button class="close" data-close="addModal" aria-label="Zamknij">✕</button>
+  <h2>Dodaj nowy wpis 🎬</h2>
+  <p class="sub">Wklej link, a miniaturka i tytuł uzupełnią się automatycznie (jeśli to możliwe).</p>
+  <form id="addForm" novalidate>
+    <label for="fUrl">Link do materiału</label>
+    <input type="url" id="fUrl" placeholder="https://www.youtube.com/watch?v=…" autocomplete="off">
+    <div class="platlist"><span>YouTube</span><span>TikTok</span><span>Instagram</span><span>Facebook</span><span>X</span><span>Twitch</span><span>inne</span></div>
+    <div class="err" id="urlHint" style="min-height:0"></div>
+
+    <div class="preview hidden" id="preview"></div>
+
+    <label for="fTitle">Tytuł</label>
+    <input type="text" id="fTitle" maxlength="120" placeholder="Np. Najlepszy nokaut roku">
+
+    <label for="fCat">Kategoria</label>
+    <select id="fCat"></select>
+
+    <label for="fDesc">Opis (opcjonalnie)</label>
+    <textarea id="fDesc" maxlength="500" placeholder="Dlaczego warto to obejrzeć?"></textarea>
+
+    <label for="fThumb">Własna miniaturka – link do obrazka (opcjonalnie)</label>
+    <input type="url" id="fThumb" placeholder="https://…/obrazek.jpg">
+    <p class="hint">Przydatne, jeśli dana platforma blokuje automatyczne pobieranie miniaturki.</p>
+
+    <div class="err" id="addErr"></div>
+    <button class="btn full">Opublikuj wpis</button>
+  </form>
+</div>
+
+<!-- logowanie -->
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <button class="close" data-close="authModal" aria-label="Zamknij">✕</button>
+  <h2 id="authTitle">Witaj ponownie 👋</h2>
+  <p class="sub" id="authSub">Zaloguj się, aby dodawać wpisy i komentować.</p>
+  <div class="tabs">
+    <button type="button" class="active" data-tab="login">Logowanie</button>
+    <button type="button" data-tab="register">Rejestracja</button>
+  </div>
+  <form id="authForm" novalidate>
+    <div id="nameField" class="hidden">
+      <label for="aName">Nazwa użytkownika</label>
+      <input type="text" id="aName" placeholder="Np. MMAfan" maxlength="24" autocomplete="nickname">
+    </div>
+    <label for="aEmail">E-mail</label>
+    <input type="email" id="aEmail" placeholder="jan@example.com" autocomplete="email">
+    <label for="aPass">Hasło</label>
+    <input type="password" id="aPass" placeholder="min. 6 znaków" autocomplete="current-password">
+    <div class="err" id="authErr"></div>
+    <button class="btn full" id="authSubmit">Zaloguj się</button>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+/* ============ KONFIGURACJA ============
+   Opcjonalnie: po wdrożeniu workera na Cloudflare wklej tu jego adres,
+   np. "https://hypezone-proxy.twojnick.workers.dev" */
+const WORKER_URL = "";
+const WORKER = WORKER_URL.replace(/\/+$/, "");
+
+const IS_FILE = location.protocol === "file:" || location.origin === "null";
+if (IS_FILE){
+  document.getElementById("topMsg").innerHTML =
+    '<span class="warn">⚠️ Tryb pliku (file://) – uruchom przez localhost lub GitHub Pages, aby YouTube działał bez błędu 153</span>';
+}
+
+const SOCIALS = [
+  {name:"Facebook",  url:"https://facebook.com",  svg:'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>'},
+  {name:"Instagram", url:"https://instagram.com", svg:'<rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>'},
+  {name:"YouTube",   url:"https://youtube.com",   svg:'<path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>'},
+  {name:"X (Twitter)",url:"https://x.com",        svg:'<path d="M4 4l16 16M20 4L4 20"/>'},
+  {name:"TikTok",    url:"https://tiktok.com",    svg:'<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'},
+  {name:"Twitch",    url:"https://twitch.tv",     svg:'<path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11V7M16 11V7"/>'}
+];
+
+const CATS = [
+  {id:"sport",   name:"Sport",        emoji:"🏅", c1:"#0ea5e9", c2:"#1e3a8a"},
+  {id:"muzyka",  name:"Muzyka",       emoji:"🎵", c1:"#a855f7", c2:"#3b0764"},
+  {id:"freak",   name:"Freak Fight",  emoji:"🥊", c1:"#ef4444", c2:"#7f1d1d"},
+  {id:"mma",     name:"MMA",          emoji:"🥋", c1:"#f97316", c2:"#7c2d12"},
+  {id:"pilka",   name:"Piłka nożna",  emoji:"⚽", c1:"#22c55e", c2:"#14532d"},
+  {id:"gaming",  name:"Gaming",       emoji:"🎮", c1:"#6366f1", c2:"#1e1b4b"},
+  {id:"humor",   name:"Humor",        emoji:"😂", c1:"#eab308", c2:"#713f12"},
+  {id:"moto",    name:"Motoryzacja",  emoji:"🏎️", c1:"#14b8a6", c2:"#134e4a"},
+  {id:"inne",    name:"Inne",         emoji:"✨", c1:"#ec4899", c2:"#500724"}
+];
+const catOf = id => CATS.find(c => c.id === id) || CATS[CATS.length-1];
+
+const PLATFORMS = {
+  youtube:  {name:"YouTube",   color:"#ff3b3b"},
+  tiktok:   {name:"TikTok",    color:"#25f4ee"},
+  instagram:{name:"Instagram", color:"#e1306c"},
+  facebook: {name:"Facebook",  color:"#1877f2"},
+  x:        {name:"X",         color:"#e7e9ea"},
+  twitch:   {name:"Twitch",    color:"#9146ff"},
+  other:    {name:"Link",      color:"#98a0c0"}
+};
+
+/* ============ NARZĘDZIA ============ */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LS = {
+  get:(k,d) => { try{ const v = JSON.parse(localStorage.getItem(k)); return v ?? d; }catch{ return d; } },
+  set:(k,v) => localStorage.setItem(k, JSON.stringify(v))
+};
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const short = n => n >= 1e6 ? (n/1e6).toFixed(1).replace(".0","")+" mln" : n >= 1000 ? (n/1000).toFixed(1).replace(".0","")+" tys." : String(n);
+function ago(ts){
+  const s = (Date.now()-ts)/1000;
+  if (s < 60) return "przed chwilą";
+  const m = s/60; if (m < 60) return Math.floor(m)+" min temu";
+  const h = m/60; if (h < 24) return Math.floor(h)+" godz. temu";
+  const d = h/24; if (d < 30) return Math.floor(d)+" dn. temu";
+  return new Date(ts).toLocaleDateString("pl-PL");
+}
+const hue = s => [...String(s)].reduce((a,c) => a + c.charCodeAt(0)*7, 0) % 360;
+const avatar = name => `<span class="av" style="background:linear-gradient(135deg,hsl(${hue(name)} 80% 55%),hsl(${(hue(name)+60)%360} 80% 48%))">${esc((name||"?").charAt(0).toUpperCase())}</span>`;
+const platBadge = p => `<i style="--pc:${PLATFORMS[p]?.color||"#fff"}"></i>${esc(PLATFORMS[p]?.name||"Link")}`;
+function safeUrl(s){
+  try{ const u = new URL(s.trim()); return /^https?:$/.test(u.protocol) ? u.href : null; }catch{ return null; }
+}
+function toast(msg){
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+/* ============ MINIATURKI ============ */
+function genThumb(p){
+  const c = catOf(p.cat), pl = PLATFORMS[p.platform]?.name || "Link";
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360'>
+    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='${c.c1}'/><stop offset='1' stop-color='${c.c2}'/></linearGradient>
+    <radialGradient id='r' cx='.3' cy='.2' r='.8'><stop offset='0' stop-color='white' stop-opacity='.25'/><stop offset='1' stop-color='white' stop-opacity='0'/></radialGradient></defs>
+    <rect width='100%' height='100%' fill='url(#g)'/><rect width='100%' height='100%' fill='url(#r)'/>
+    <text x='50%' y='45%' font-size='120' text-anchor='middle' dominant-baseline='middle'>${c.emoji}</text>
+    <text x='50%' y='84%' fill='white' fill-opacity='.85' font-size='26' font-family='Arial' font-weight='bold' text-anchor='middle'>${pl} · ${c.name}</text></svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+}
+function thumbImg(p){
+  const gen = genThumb(p);
+  const src = p.thumb && safeUrl(p.thumb) ? p.thumb : gen;
+  return `<img src="${esc(src)}" data-gen="${esc(gen)}" data-id="${esc(p.id||"")}" alt="${esc(p.title||"")}" loading="lazy" referrerpolicy="no-referrer">`;
+}
+
+const refreshedThumbs = new Set();
+document.addEventListener("error", async e => {
+  const el = e.target;
+  if (el.tagName !== "IMG" || !el.dataset.gen || el.dataset.failed) return;
+  el.dataset.failed = 1;
+  el.src = el.dataset.gen;
+
+  // Odświeżenie wygasłej miniaturki TikToka w tle
+  const id = el.dataset.id;
+  if (!id || refreshedThumbs.has(id)) return;
+  const p = getPost(id);
+  if (!p || p.platform !== "tiktok") return;
+  refreshedThumbs.add(id);
+  const meta = await fetchMeta(p);
+  if (meta?.thumb){
+    p.thumb = meta.thumb;
+    savePosts();
+    el.src = meta.thumb;
+  }
+}, true);
+
+/* ============ ANALIZA LINKÓW ============ */
+function parseLink(raw){
+  raw = (raw||"").trim();
+  if (!raw) return null;
+  if (!/^https?:\/\//i.test(raw)) raw = "https://" + raw;
+  let u; try{ u = new URL(raw); }catch{ return null; }
+  if (!/^https?:$/.test(u.protocol) || !u.hostname.includes(".")) return null;
+  const h = u.hostname.replace(/^(www\.|m\.|mobile\.|music\.)/, "");
+  const r = {url:u.href, platform:"other", vid:null, embed:null, thumb:null, vertical:false};
+
+  if (/(^|\.)youtube\.com$|^youtu\.be$|(^|\.)youtube-nocookie\.com$/.test(h)){
+    r.platform = "youtube";
+    let id = null;
+    if (h === "youtu.be") id = u.pathname.slice(1).split("/")[0];
+    else if (u.pathname === "/watch") id = u.searchParams.get("v");
+    else { const m = u.pathname.match(/^\/(shorts|embed|live|v)\/([\w-]{11})/); if (m){ id = m[2]; r.vertical = m[1] === "shorts"; } }
+    if (id && /^[\w-]{11}$/.test(id)){
+      r.vid = id;
+      const org = location.protocol.startsWith("http") ? `&origin=${encodeURIComponent(location.origin)}` : "";
+      r.embed = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1${org}`;
+      r.thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    }
+  }
+  else if (/(^|\.)tiktok\.com$/.test(h)){
+    r.platform = "tiktok";
+    const m = u.pathname.match(/\/video\/(\d+)/);
+    if (m){ r.vid = m[1]; r.embed = `https://www.tiktok.com/embed/v2/${m[1]}`; r.vertical = true; }
+  }
+  else if (/(^|\.)instagram\.com$/.test(h)){
+    r.platform = "instagram";
+    const m = u.pathname.match(/\/(p|reel|reels|tv)\/([\w-]+)/);
+    if (m){ r.vid = m[2]; r.embed = `https://www.instagram.com/${m[1]==="reels"?"reel":m[1]}/${m[2]}/embed`; r.vertical = true; }
+  }
+  else if (/(^|\.)facebook\.com$|^fb\.watch$/.test(h)) r.platform = "facebook";
+  else if (/^x\.com$|(^|\.)twitter\.com$/.test(h))     r.platform = "x";
+  else if (/(^|\.)twitch\.tv$/.test(h))                r.platform = "twitch";
+  return r;
+}
+
+async function fetchMeta(p){
+  const getJson = async (url) => {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 7000);
+    try{
+      const res = await fetch(url, {signal:ctrl.signal});
+      return res.ok ? await res.json() : null;
+    }catch{ return null; }
+    finally{ clearTimeout(t); }
+  };
+
+  // 1. Jeśli skonfigurowano własny Cloudflare Worker – użyj go w pierwszej kolejności
+  if (WORKER){
+    const w = await getJson(`${WORKER}/meta?url=${encodeURIComponent(p.url)}`);
+    if (w && (w.title || w.thumb || w.canonical)){
+      const target = w.canonical || p.url;
+      // Dla platform innych niż YouTube kierujemy obrazek przez cache /thumb w Workerze (nie wygasa)
+      const thumb = w.thumb
+        ? (p.platform === "youtube" ? w.thumb : `${WORKER}/thumb?url=${encodeURIComponent(target)}`)
+        : "";
+      return {title:w.title||"", thumb, canonical:safeUrl(w.canonical||"")||""};
+    }
+  }
+
+  // 2. Tryb bez Workera – YouTube oEmbed
+  if (p.platform === "youtube"){
+    const j = await getJson("https://www.youtube.com/oembed?format=json&url=" + encodeURIComponent(p.url));
+    return j ? {title:j.title||"", thumb:safeUrl(j.thumbnail_url||"")||""} : null;
+  }
+
+  // 3. Tryb bez Workera – TikTok oEmbed + zapasowo Microlink dla krótkich linków (vm.tiktok.com)
+  if (p.platform === "tiktok"){
+    if (p.vid){
+      const j = await getJson("https://www.tiktok.com/oembed?url=" + encodeURIComponent(p.url));
+      if (j?.thumbnail_url || j?.title){
+        return {title:j.title||"", thumb:safeUrl(j.thumbnail_url||"")||""};
+      }
+    }
+    const m = await getJson("https://api.microlink.io/?url=" + encodeURIComponent(p.url));
+    if (m?.status === "success" && m.data){
+      return {
+        title: m.data.title || "",
+        thumb: safeUrl(m.data.image?.url || "") || "",
+        canonical: safeUrl(m.data.url || "") || ""
+      };
+    }
+  }
+  return null;
+}
+
+/* ============ SOCIAL ============ */
+$$("[data-social]").forEach(box => {
+  box.innerHTML = SOCIALS.map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${s.name}" title="${s.name}"><svg viewBox="0 0 24 24">${s.svg}</svg></a>`).join("");
+});
+
+/* ============ MODALE ============ */
+const ORDER = ["authModal","addModal","postModal"];
+function syncOverlay(){
+  const any = $$(".modal.open").length > 0;
+  $("#overlay").classList.toggle("open", any);
+  document.body.style.overflow = any ? "hidden" : "";
+}
+function openModal(id){ $("#"+id).classList.add("open"); syncOverlay(); }
+function closeModal(id){
+  $("#"+id).classList.remove("open");
+  if (id === "postModal"){ $("#postMain").innerHTML = ""; currentPost = null; }
+  syncOverlay();
+}
+function closeTop(){ for (const id of ORDER) if ($("#"+id).classList.contains("open")){ closeModal(id); return; } }
+$("#overlay").addEventListener("click", closeTop);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeTop(); });
+$$("[data-close]").forEach(b => b.addEventListener("click", () => closeModal(b.dataset.close)));
+
+/* ============ KONTA (DEMO – localStorage) ============ */
+let users   = LS.get("hz_users", {});
+let session = LS.get("hz_session", null);
+let authMode = "login";
+let afterAuth = null;
+const me = () => (session && users[session]) ? {...users[session], email:session} : null;
+
+async function hashPass(email, pass){
+  const data = email + "::" + pass;
+  if (window.crypto && crypto.subtle){
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(data));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,"0")).join("");
+  }
+  return btoa(unescape(encodeURIComponent(data)));
+}
+function setAuthMode(mode){
+  authMode = mode;
+  $$(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === mode));
+  const reg = mode === "register";
+  $("#nameField").classList.toggle("hidden", !reg);
+  $("#authTitle").textContent  = reg ? "Dołącz do HypeZone 🔥" : "Witaj ponownie 👋";
+  $("#authSub").textContent    = reg ? "Załóż konto w kilka sekund." : "Zaloguj się, aby dodawać wpisy i komentować.";
+  $("#authSubmit").textContent = reg ? "Załóż konto" : "Zaloguj się";
+  $("#aPass").autocomplete     = reg ? "new-password" : "current-password";
+  $("#authErr").textContent = "";
+}
+function openAuth(mode="login", cb=null){
+  afterAuth = cb;
+  setAuthMode(mode);
+  openModal("authModal");
+  setTimeout(() => (mode === "register" ? $("#aName") : $("#aEmail")).focus(), 250);
+}
+$$(".tabs button").forEach(b => b.addEventListener("click", () => setAuthMode(b.dataset.tab)));
+$("#loginBtn").addEventListener("click", () => openAuth("login"));
+
+$("#authForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#authErr");
+  const email = $("#aEmail").value.trim().toLowerCase();
+  const pass  = $("#aPass").value;
+  const name  = $("#aName").value.trim();
+
+  if (!/^\S+@\S+\.\S+$/.test(email)) return err.textContent = "Podaj poprawny adres e-mail.";
+  if (pass.length < 6)               return err.textContent = "Hasło musi mieć min. 6 znaków.";
+  const hash = await hashPass(email, pass);
+
+  if (authMode === "register"){
+    if (name.length < 3)  return err.textContent = "Nazwa użytkownika: min. 3 znaki.";
+    if (users[email])     return err.textContent = "Konto z tym adresem już istnieje.";
+    users[email] = {name, hash};
+    LS.set("hz_users", users);
+    toast("🎉 Konto utworzone! Witaj, " + name);
+  } else {
+    const u = users[email];
+    if (!u || u.hash !== hash) return err.textContent = "Nieprawidłowy e-mail lub hasło.";
+    toast("✓ Zalogowano jako " + u.name);
+  }
+  session = email; LS.set("hz_session", session);
+  e.target.reset();
+  closeModal("authModal");
+  renderUser(); renderAll();
+  if (afterAuth){ const cb = afterAuth; afterAuth = null; setTimeout(cb, 300); }
+});
+
+function renderUser(){
+  const u = me();
+  if (session && !u){ session = null; localStorage.removeItem("hz_session"); }
+  $("#loginBtn").classList.toggle("hidden", !!u);
+  $("#userWrap").classList.toggle("hidden", !u);
+  if (u){
+    $("#userName").textContent = u.name;
+    $("#userAvatar").textContent = u.name.charAt(0).toUpperCase();
+    $("#userAvatar").style.background = `linear-gradient(135deg,hsl(${hue(u.name)} 80% 55%),hsl(${(hue(u.name)+60)%360} 80% 48%))`;
+    $("#userEmail").textContent = session;
+  }
+}
+$("#userBtn").addEventListener("click", e => { e.stopPropagation(); $("#userMenu").classList.toggle("open"); });
+document.addEventListener("click", () => $("#userMenu").classList.remove("open"));
+$("#logoutBtn").addEventListener("click", () => {
+  session = null; localStorage.removeItem("hz_session"); state.mine = false;
+  renderUser(); renderAll(); if (currentPost) openPost(currentPost, true);
+  toast("Wylogowano pomyślnie");
+});
+$("#myPosts").addEventListener("click", () => {
+  state.mine = true; state.cat = "all"; state.limit = 12;
+  renderAll(); $("#tablica").scrollIntoView({behavior:"smooth"});
+});
+
+/* ============ DANE (wpisy) ============ */
+const MIN = 60e3, HOUR = 36e5, DAY = 864e5;
+function seedPosts(){
+  const now = Date.now();
+  const mk = (url, title, cat, desc, ago_, likes, views, comments=[]) => {
+    const info = parseLink(url);
+    return {
+      id:uid(), url:info.url, platform:info.platform, vid:info.vid, title, desc, cat,
+      thumb:info.thumb || "", author:"HypeZone", owner:"system@hypezone", ts:now-ago_,
+      likes:Array.from({length:likes},(_,i)=>"fan"+i+"@x"), views, comments
+    };
+  };
+  const c = (name,text,ago_) => ({id:uid(), name, owner:"seed-"+name, text, ts:Date.now()-ago_});
+  return [
+    mk("https://www.youtube.com/results?search_query=MMA+najlepsze+nokauty","Najlepsze nokauty MMA – zobacz na YouTube","mma","Przykładowy wpis startowy. Kliknij „Otwórz oryginał”, a potem dodaj własne linki!",20*MIN,14,820,[c("Kamil_MMA","Dawać więcej takich zestawień! 🥋",10*MIN)]),
+    mk("https://www.youtube.com/results?search_query=freak+fight+highlights","Freak Fight – skróty walk i największe akcje","freak","Przykładowy wpis startowy.",2*HOUR,22,1430,[c("Ola","Ta kategoria rządzi 🔥",90*MIN),c("Bartek","Kto widział ostatnią galę?",70*MIN)]),
+    mk("https://www.youtube.com/watch?v=aqz-KE-bpKQ","Big Buck Bunny – 4K 60fps (YouTube Test)","gaming","Przykładowy film w 4K z YouTube, który pozwala na osadzanie na każdej stronie.",5*HOUR,41,5210,[c("Marta","Super jakość i płynne 60 fps!",4*HOUR)]),
+    mk("https://www.youtube.com/watch?v=M7lc1UVf-VE","YouTube Player API – prezentacja","gaming","Oficjalne wideo demonstracyjne od YouTube.",9*HOUR,19,2980),
+    mk("https://www.youtube.com/results?search_query=najlepsze+gole+pilka+nozna","Najpiękniejsze gole tygodnia","pilka","Przykładowy wpis startowy.",1*DAY,17,1675),
+    mk("https://www.youtube.com/watch?v=dQw4w9WgXcQ","Rick Astley – Never Gonna Give You Up","muzyka","Klasyk, który nigdy nie zawodzi.",2*DAY,25,3340),
+    mk("https://www.youtube.com/results?search_query=sport+najlepsze+akcje","Najlepsze akcje sportowe – zestawienie","sport","Przykładowy wpis startowy.",3*DAY,9,610),
+    mk("https://www.instagram.com/explore/tags/freakfight/","Freak Fight na Instagramie – hashtag","freak","Przykład wpisu z Instagrama. Miniaturka jest generowana automatycznie.",4*DAY,12,540),
+    mk("https://www.tiktok.com/search?q=gaming","Gaming na TikToku – najlepsze klipy","gaming","Przykład wpisu z TikToka.",5*DAY,8,430)
+  ];
+}
+let posts = LS.get("hz_posts", null);
+if (!posts){ posts = seedPosts(); LS.set("hz_posts", posts); }
+const savePosts = () => LS.set("hz_posts", posts);
+const getPost = id => posts.find(p => p.id === id);
+
+/* ============ FILTRY / STAN ============ */
+const state = {cat:"all", plat:"all", q:"", sort:"new", mine:false, limit:12};
+let currentPost = null;
+
+function filtered(){
+  let list = posts.filter(p =>
+    (state.cat  === "all" || p.cat === state.cat) &&
+    (state.plat === "all" || p.platform === state.plat) &&
+    (!state.mine || p.owner === session) &&
+    (!state.q || (p.title+" "+p.desc+" "+p.author).toLowerCase().includes(state.q)));
+  const by = {
+    new:   (a,b) => b.ts - a.ts,
+    top:   (a,b) => b.likes.length - a.likes.length || b.ts - a.ts,
+    hot:   (a,b) => b.comments.length - a.comments.length || b.ts - a.ts,
+    views: (a,b) => b.views - a.views
+  }[state.sort];
+  return list.sort(by);
+}
+const score = p => p.likes.length*3 + p.comments.length*4 + p.views*0.05;
+
+/* ============ RENDER ============ */
+function renderChips(){
+  const all = `<button class="chip ${state.cat==="all"?"active":""}" data-cat="all">🌐 Wszystkie <small>${posts.length}</small></button>`;
+  $("#chips").innerHTML = all + CATS.map(c => {
+    const n = posts.filter(p => p.cat === c.id).length;
+    return `<button class="chip ${state.cat===c.id?"active":""}" data-cat="${c.id}">${c.emoji} ${c.name} <small>${n}</small></button>`;
+  }).join("");
+}
+function renderStats(){
+  $("#stPosts").textContent    = posts.length;
+  $("#stComments").textContent = posts.reduce((s,p) => s + p.comments.length, 0);
+  $("#stLikes").textContent    = posts.reduce((s,p) => s + p.likes.length, 0);
+  $("#stUsers").textContent    = Object.keys(users).length + 1;
+}
+function renderTrending(){
+  const top = posts.slice().sort((a,b) => score(b)-score(a)).slice(0,3);
+  $("#trending").innerHTML = top.map((p,i) => `
+    <div class="t-card" data-open="${p.id}" tabindex="0">
+      <div class="t-rank">${i+1}</div>
+      <div class="t-thumb">${thumbImg(p)}<span class="plat">${platBadge(p.platform)}</span></div>
+      <div class="t-info"><b>${esc(p.title)}</b><small>${catOf(p.cat).emoji} ${catOf(p.cat).name} · ❤ ${p.likes.length} · 💬 ${p.comments.length}</small></div>
+    </div>`).join("");
+}
+function cardHTML(p, i){
+  const liked = session && p.likes.includes(session);
+  const c = catOf(p.cat);
+  return `
+  <article class="card" data-open="${p.id}" tabindex="0" style="animation-delay:${Math.min(i,12)*40}ms">
+    <div class="thumb">
+      ${thumbImg(p)}
+      <span class="plat">${platBadge(p.platform)}</span>
+      <span class="play">▶</span>
+      <span class="cat-tag">${c.emoji} ${c.name}</span>
+    </div>
+    <div class="card-body">
+      <h3>${esc(p.title)}</h3>
+      <div class="by">${avatar(p.author)}<span><b>${esc(p.author)}</b> · ${ago(p.ts)}</span></div>
+      <div class="meta">
+        <button class="like ${liked?"on":""}" data-like="${p.id}" aria-label="Polub">${liked?"❤️":"🤍"} ${p.likes.length}</button>
+        <span>💬 ${p.comments.length}</span>
+        <span>👁 ${short(p.views)}</span>
+      </div>
+    </div>
+  </article>`;
+}
+function renderFeed(){
+  const list = filtered();
+  const shown = list.slice(0, state.limit);
+  $("#count").textContent = `${list.length} ${list.length===1?"wpis":"wpisów"}` + (state.cat!=="all" ? " w kategorii " + catOf(state.cat).name : "");
+  $("#mineNote").innerHTML = state.mine ? `<span class="mine-note">Pokazuję tylko Twoje wpisy <button id="clearMine" aria-label="Wyczyść">✕</button></span>` : "";
+  $("#feed").innerHTML = shown.length ? shown.map(cardHTML).join("") :
+    `<div class="empty" style="grid-column:1/-1"><div class="big">🎬</div><h3>Brak wpisów</h3><p style="margin:6px 0 18px">Nic tu jeszcze nie ma. Bądź pierwszy i dodaj coś ciekawego!</p><button class="btn" data-add>＋ Dodaj wpis</button></div>`;
+  $("#moreBtn").classList.toggle("hidden", list.length <= state.limit);
+}
+function renderAll(){ renderChips(); renderStats(); renderTrending(); renderFeed(); }
+
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]"); if (!b) return;
+  state.cat = b.dataset.cat; state.limit = 12; renderAll();
+  $("#tablica").scrollIntoView({behavior:"smooth"});
+});
+function onCardClick(e){
+  const like = e.target.closest("[data-like]");
+  if (like){ e.stopPropagation(); toggleLike(like.dataset.like); return; }
+  const add = e.target.closest("[data-add]"); if (add){ startAdd(); return; }
+  const clr = e.target.closest("#clearMine"); if (clr){ state.mine = false; renderAll(); return; }
+  const c = e.target.closest("[data-open]"); if (c) openPost(c.dataset.open);
+}
+function onCardKey(e){
+  if (e.key === "Enter" && e.target.matches("[data-open]")) openPost(e.target.dataset.open);
+}
+["#feed","#trending"].forEach(s => { $(s).addEventListener("click", onCardClick); $(s).addEventListener("keydown", onCardKey); });
+$("#mineNote").addEventListener("click", onCardClick);
+$("#moreBtn").addEventListener("click", () => { state.limit += 12; renderFeed(); });
+
+$("#q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); state.limit = 12; renderFeed(); });
+$("#sort").addEventListener("change", e => { state.sort = e.target.value; renderFeed(); });
+$("#platFilter").innerHTML = `<option value="all">Wszystkie platformy</option>` +
+  Object.entries(PLATFORMS).map(([k,v]) => `<option value="${k}">${v.name}</option>`).join("");
+$("#platFilter").addEventListener("change", e => { state.plat = e.target.value; state.limit = 12; renderFeed(); });
+
+/* ============ POLUBIENIA ============ */
+function toggleLike(id){
+  if (!session){ openAuth("login", () => toggleLike(id)); toast("Zaloguj się, aby polubić wpis"); return; }
+  const p = getPost(id); if (!p) return;
+  const i = p.likes.indexOf(session);
+  if (i >= 0) p.likes.splice(i,1); else p.likes.push(session);
+  savePosts(); renderAll();
+  if (currentPost === id) renderMain(p);
+}
+
+/* ============ OKNO WPISU ============ */
+function openPost(id, noView){
+  const p = getPost(id); if (!p) return;
+  currentPost = id;
+  if (!noView){ p.views++; savePosts(); renderStats(); }
+  renderMain(p); renderSide(p);
+  $("#postModal").scrollTop = 0;
+  openModal("postModal");
+  renderFeed();
+}
+function renderMain(p){
+  const info = parseLink(p.url) || {};
+  const liked = session && p.likes.includes(session);
+  const c = catOf(p.cat);
+  const mine = session && p.owner === session;
+  const embed = info.embed
+    ? `<div class="embed ${info.vertical?"v":""}" data-embed="${esc(info.embed)}" data-url="${esc(p.url)}" data-plat="${esc(p.platform)}">${thumbImg(p)}<button class="bigplay" data-play aria-label="Odtwórz">▶</button></div>`
+    : `<div class="embed noembed">${thumbImg(p)}<div class="ne"><div style="font-size:2.4rem">🔗</div><p>Ten materiał otworzy się na stronie platformy ${esc(PLATFORMS[p.platform].name)}.</p><a class="btn" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Otwórz oryginał ↗</a></div></div>`;
+  $("#postMain").innerHTML = `
+    ${embed}
+    <h2>${esc(p.title)}</h2>
+    <div class="post-meta">
+      <span class="plat" style="position:static">${platBadge(p.platform)}</span>
+      <span class="cat-tag" style="position:static">${c.emoji} ${c.name}</span>
+      <span style="display:flex;align-items:center;gap:8px">${avatar(p.author)} <b style="color:#dfe4ff">${esc(p.author)}</b></span>
+      <span>${ago(p.ts)}</span><span>👁 ${short(p.views)}</span>
+    </div>
+    ${p.desc ? `<p class="post-desc">${esc(p.desc)}</p>` : ""}
+    <div class="actions">
+      <button class="abtn ${liked?"on":""}" data-like="${p.id}">${liked?"❤️":"🤍"} ${p.likes.length} ${p.likes.length===1?"polubienie":"polubień"}</button>
+      <a class="abtn" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">↗ Otwórz oryginał</a>
+      <button class="abtn" data-copy>🔗 Kopiuj link</button>
+      ${mine ? `<button class="abtn" data-del style="color:#ff8c99">🗑 Usuń wpis</button>` : ""}
+    </div>`;
+}
+function renderSide(p){
+  const u = me();
+  const list = p.comments.length
+    ? p.comments.slice().sort((a,b) => b.ts-a.ts).map(c => `
+      <div class="cm">${avatar(c.name)}
+        <div class="cm-b">
+          <div class="cm-h"><b>${esc(c.name)}</b><small>${ago(c.ts)}</small>
+            ${(c.owner===session || p.owner===session) ? `<button class="cm-del" data-cdel="${c.id}" title="Usuń komentarz">🗑</button>` : ""}
+          </div>
+          <p>${esc(c.text)}</p>
+        </div>
+      </div>`).join("")
+    : `<div class="empty small">Brak komentarzy. Bądź pierwszy! 💬</div>`;
+  const form = u
+    ? `<form id="cForm"><textarea id="cText" maxlength="500" placeholder="Napisz komentarz jako ${esc(u.name)}…" required></textarea><button class="btn small">Skomentuj</button></form>`
+    : `<div class="login-hint"><p style="margin-bottom:10px;color:var(--muted)">Zaloguj się, aby dodać komentarz.</p><button class="btn small" data-login>Zaloguj się</button></div>`;
+  $("#postSide").innerHTML = `<h3>💬 Komentarze (${p.comments.length})</h3>${form}<div class="cm-list">${list}</div>`;
+}
+
+function mountIframe(box){
+  box.classList.remove("noembed");
+  box.innerHTML = `<iframe src="${box.dataset.embed}" title="Odtwarzacz" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+}
+
+$("#postModal").addEventListener("click", e => {
+  const p = getPost(currentPost); if (!p) return;
+  if (e.target.closest("[data-play]")){
+    const box = e.target.closest(".embed");
+    if (IS_FILE && box.dataset.plat === "youtube"){
+      box.classList.add("noembed");
+      box.querySelector(".bigplay")?.remove();
+      box.insertAdjacentHTML("beforeend", `
+        <div class="ne">
+          <div style="font-size:2rem">⚠️</div>
+          <p>Otwierasz plik z dysku (<code>file://</code>). Przeglądarka nie wysyła wtedy nagłówka <b>Referer</b>, więc YouTube zwraca błąd 153.<br>Uruchom stronę przez serwer lokalny lub GitHub Pages.</p>
+          <div class="ne-btns">
+            <a class="btn small" href="${esc(box.dataset.url)}" target="_blank" rel="noopener noreferrer">Otwórz na YouTube ↗</a>
+            <button class="btn small ghost" data-force-play>Spróbuj mimo to</button>
+          </div>
+        </div>`);
+      return;
+    }
+    mountIframe(box);
+    return;
+  }
+  if (e.target.closest("[data-force-play]")){
+    mountIframe(e.target.closest(".embed"));
+    return;
+  }
+  const like = e.target.closest("[data-like]"); if (like){ toggleLike(p.id); return; }
+  if (e.target.closest("[data-copy]")){
+    (navigator.clipboard ? navigator.clipboard.writeText(p.url) : Promise.reject())
+      .then(() => toast("🔗 Skopiowano link do materiału"))
+      .catch(() => toast("Nie udało się skopiować linku"));
+    return;
+  }
+  if (e.target.closest("[data-del]")){
+    if (!confirm("Na pewno usunąć ten wpis?")) return;
+    posts = posts.filter(x => x.id !== p.id); savePosts();
+    closeModal("postModal"); renderAll(); toast("Wpis usunięty");
+    return;
+  }
+  if (e.target.closest("[data-login]")){ openAuth("login", () => { const q = getPost(currentPost); if (q) renderSide(q); }); return; }
+  const cd = e.target.closest("[data-cdel]");
+  if (cd){
+    p.comments = p.comments.filter(c => c.id !== cd.dataset.cdel);
+    savePosts(); renderSide(p); renderAll(); return;
+  }
+});
+$("#postModal").addEventListener("submit", e => {
+  if (e.target.id !== "cForm") return;
+  e.preventDefault();
+  const p = getPost(currentPost), u = me();
+  const text = $("#cText").value.trim();
+  if (!p || !u || !text) return;
+  p.comments.push({id:uid(), name:u.name, owner:session, text, ts:Date.now()});
+  savePosts(); renderSide(p); renderAll();
+  toast("💬 Komentarz dodany");
+});
+
+/* ============ DODAWANIE WPISU ============ */
+$("#fCat").innerHTML = CATS.map(c => `<option value="${c.id}">${c.emoji} ${c.name}</option>`).join("");
+let draft = {raw:"", parsed:null, meta:null, autoTitle:""};
+let urlTimer;
+
+function startAdd(){
+  if (!session){ openAuth("login", startAdd); toast("Zaloguj się, aby dodać wpis"); return; }
+  if (state.cat !== "all") $("#fCat").value = state.cat;
+  openModal("addModal");
+  setTimeout(() => $("#fUrl").focus(), 250);
+}
+["#navAdd","#heroAdd","#fab","#footAdd"].forEach(s => $(s).addEventListener("click", startAdd));
+
+function renderPreview(){
+  const p = draft.parsed, box = $("#preview");
+  if (!p){ box.classList.add("hidden"); return; }
+  const custom = safeUrl($("#fThumb").value);
+  const obj = {platform:p.platform, cat:$("#fCat").value, thumb:custom || draft.meta?.thumb || p.thumb || "", title:$("#fTitle").value};
+  box.classList.remove("hidden");
+  box.innerHTML = `<div class="thumb">${thumbImg(obj)}<span class="plat">${platBadge(p.platform)}</span></div>
+    <div class="pv-info"><small>Podgląd wpisu</small><b>${esc($("#fTitle").value || "Tytuł wpisu")}</b><small>${esc(p.url)}</small></div>`;
+}
+
+async function updateDraft(){
+  const raw = $("#fUrl").value.trim();
+  const p = parseLink(raw);
+  draft.raw = raw; draft.parsed = p; draft.meta = null;
+  $("#urlHint").style.color = "";
+  $("#urlHint").textContent = (!p && raw) ? "To nie wygląda na poprawny link." : "";
+  renderPreview();
+  if (!p) return;
+
+  if (WORKER || p.platform === "youtube" || p.platform === "tiktok"){
+    $("#urlHint").style.color = "var(--muted)";
+    $("#urlHint").textContent = "⏳ Pobieram miniaturkę i tytuł…";
+  }
+
+  const meta = await fetchMeta(p);
+  if (draft.raw !== raw) return;
+  $("#urlHint").textContent = "";
+  if (!meta) return;
+
+  draft.meta = meta;
+  if (meta.canonical){
+    const full = parseLink(meta.canonical);
+    if (full?.vid) draft.parsed = full;
+  }
+  const t = $("#fTitle");
+  if (!t.value.trim() || t.value === draft.autoTitle){ t.value = meta.title; draft.autoTitle = meta.title; }
+  renderPreview();
+}
+
+$("#fUrl").addEventListener("input", () => { clearTimeout(urlTimer); urlTimer = setTimeout(updateDraft, 500); });
+["#fTitle","#fThumb"].forEach(s => $(s).addEventListener("input", renderPreview));
+$("#fCat").addEventListener("change", renderPreview);
+
+$("#addForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const err = $("#addErr"); err.textContent = "";
+  const u = me();
+  if (!u){ closeModal("addModal"); openAuth("login", startAdd); return; }
+  const raw = $("#fUrl").value.trim();
+  const p = (draft.raw === raw && draft.parsed) ? draft.parsed : parseLink(raw);
+  if (!p) return err.textContent = "Podaj poprawny link (http/https).";
+  const title = $("#fTitle").value.trim();
+  if (title.length < 3) return err.textContent = "Podaj tytuł (min. 3 znaki).";
+  if (posts.some(x => x.url === p.url)) return err.textContent = "Ten link został już dodany na portalu.";
+  const rawThumb = $("#fThumb").value.trim();
+  const custom = rawThumb ? safeUrl(rawThumb) : "";
+  if (rawThumb && !custom) return err.textContent = "Link do miniaturki jest niepoprawny.";
+
+  const post = {
+    id:uid(), url:p.url, platform:p.platform, vid:p.vid, title,
+    desc:$("#fDesc").value.trim(), cat:$("#fCat").value,
+    thumb:custom || draft.meta?.thumb || p.thumb || "",
+    author:u.name, owner:session, ts:Date.now(), likes:[], views:0, comments:[]
+  };
+  posts.unshift(post); savePosts();
+  e.target.reset(); draft = {raw:"", parsed:null, meta:null, autoTitle:""}; $("#preview").classList.add("hidden");
+  closeModal("addModal");
+  Object.assign(state, {cat:"all", plat:"all", q:"", sort:"new", mine:false, limit:12});
+  $("#q").value = ""; $("#sort").value = "new"; $("#platFilter").value = "all";
+  renderAll();
+  $("#tablica").scrollIntoView({behavior:"smooth"});
+  toast("🎉 Wpis opublikowany!");
+});
+
+/* ============ START ============ */
+$("#year").textContent = new Date().getFullYear();
+renderUser();
+renderAll();
+</script>
+</body>
+</html>
